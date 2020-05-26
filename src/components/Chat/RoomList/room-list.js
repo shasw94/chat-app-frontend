@@ -3,6 +3,7 @@ import React from 'react';
 class RoomList extends React.Component {
     render() {
         const orderedRooms = [...this.props.rooms].sort(((a,b) => a.id > b.id))
+
         return (
             <div className="rooms-list">
                 <ul>
@@ -12,7 +13,7 @@ class RoomList extends React.Component {
                         return (
                             <li key={room.id} className={"room " + active}>
                                 <a
-                                    onClick={() => this.props.subscribeToRoom(room.id, false)}
+                                    onClick={() => this.props.subscribeToRoom(room, false)}
                                     href="#">
                                     # {room.username}
                                 </a>

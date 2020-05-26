@@ -1,28 +1,29 @@
 import React from 'react';
 import Message from './Message/Message';
 
-const DUMMY_DATA = [
-    {
-        "username": "shubham",
-        "text": "Hey, how is it going?",
-    },
-    {
-        "username": "shaswat",
-        "text": "All right, how are u?",
-    },
-    {
-        "username": "shubham",
-        "text": "I am fine too",
-    },
-    
-];
 
 export class MessageList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            messages: []
+        }
+    }
+
+    recieveChatMessage = (msg) => {
+        
+    }
+
+    toggleRoom
+
+    componentDidMount() {
+       
+    }
     render() {
         return (
             <div className="message-list">
-                {DUMMY_DATA.map((message, index) => {
-                    return <Message username = {message.username} text={message.text} />
+                {this.props.messages.map((message, index) => {
+                    return <Message key={index} username={message.username} text={message.text} />
                 })}
             </div>
         )

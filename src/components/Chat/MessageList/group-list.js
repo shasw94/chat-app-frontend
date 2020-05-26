@@ -6,13 +6,13 @@ class GroupList extends React.Component {
         return (
             <div className="group-list">
                 <ul>
-                <h3>Your Groups:</h3>
+                <h3>Your Chats:</h3>
                     {orderedGroups.map(room => {
                         const active = room.groups.id === this.props.roomId ? 'active' : '';
                         return (
                             <li key={10 - room.groups.id} className={"room " + active}>
                                 <a
-                                    onClick={() => this.props.subscribeToRoom(room.groups.id, true)}
+                                    onClick={() => this.props.subscribeToRoom(room, true)}
                                     href="#">
                                     # {room.groups.name }
                                 </a>

@@ -36,22 +36,26 @@ export class Login extends React.Component {
         });
     }
 
+    displaySuccessMessage = (title, message) => {
+        store.addNotification({
+            title: title,
+            message: message,
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+                duration: 2000,
+                onScreen: true
+            }
+        });
+    }
+
     onLoginButtonClick = () => {
         axios.post('http://localhost:3000/auth/signin', this.state)
             .then(response => {
-                store.addNotification({
-                    title: "Success",
-                    message: "Login Successful",
-                    type: "success",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: true
-                    }
-                });
+                this.displaySuccessMessage("Success", "Login Successful")
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
                 this.props.history.push({
                     pathname: '/chat-app',
@@ -61,13 +65,12 @@ export class Login extends React.Component {
             .catch(error => {
                 let errObj = Object.assign({}, error);
                 let errMsgs = JSON.parse(errObj.response.request.responseText);
-                let messages = errMsgs.message;
-                if (Array.isArray(messages)) {
-                    messages.forEach(m => {
+                if (Array.isArray(errMsgs.message)) {
+                    errMsgs.message.forEach(m => {
                         this.displayErrorMessage('Error', m)
                     });
                 } else {
-                    this.displayErrorMessage('Error', messages);
+                    this.displayErrorMessage('Error', errMsgs.message);
                 }
             })
     }
