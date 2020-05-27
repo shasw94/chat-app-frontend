@@ -18,14 +18,15 @@ class Chat extends React.Component {
             socket: null,
             user: {},
             groupId: null,
-            groupDictionary: [],
-            messages: [],
+            messages: {},
             joinableRooms: [],
-            groups: [],
-            joinedRooms: [],
+            groups: {},
+            groupList: [],
             friends: [],
             currentUser: null,
             activeGroup: null,
+            openModal: false,
+            viewSwitcher: 1,
         }
     }
 
@@ -45,6 +46,7 @@ class Chat extends React.Component {
             }
         });
         this.props.history.push('/');
+        if (this.state.activeGroup) socket.emit('leaveRoom', this.state.activeGroup);
     }
 
 
@@ -52,6 +54,7 @@ class Chat extends React.Component {
         let params = {
             id: id
         }
+        console.log("verifyParam", params);
         axios.post('http://localhost:3000/messages/getMessages', params)
             .then(response => {
                 this.displaySuccessMessage("Success", "Messages Retrieved");
@@ -65,7 +68,10 @@ class Chat extends React.Component {
                     }
                     messages.push(m);
                 })
-                this.setState({ messages: messages });
+                let messageGroup = this.state.messages;
+
+                messageGroup[id] = messages
+                this.setState({ messages: messageGroup });
             })
             .catch(error => {
                 this.errorHandler(error);
@@ -75,7 +81,14 @@ class Chat extends React.Component {
 
 
     subscribeToRoom = (room) => {
-        this.loadMessagesOfGroup(room.id);
+        console.log("roomObj", room);
+        if (this.state.activeGroup != null) {
+            socket.emit('leaveRoom', this.state.activeGroup);
+        }
+        this.setState({activeGroup: room.groupsId});
+        this.loadMessagesOfGroup(room.groupsId);
+        
+        socket.emit('joinRoom', room.groupsId);
     }
 
 
@@ -133,7 +146,7 @@ class Chat extends React.Component {
         axios.post('http://localhost:3000/groups/listGroupsOfUser/')
             .then(response => {
                 this.displaySuccessMessage("Success", "Groups Fetched")
-                this.setState({ groups: response.data });
+                this.setState({ groupList: response.data });
                 console.log('datum', response.data);
             })
             .catch(error => {
@@ -141,41 +154,35 @@ class Chat extends React.Component {
             })
     }
 
-    makeRoomString = (string, groupUserId) => {
-        return string + groupUserId;
-    }
-
-    getMessages = (id = 1, isGroup = false) => {
-
+    isMemberActiveGroup = () => {
+        return this.state.groups[this.state.activeGroup];
     }
 
     recieveChatMessage = (msg) => {
+        console.log("state", this.state);
         let { messages } = this.state;
-
-        messages = [...messages, msg];
+        if (this.state.activeGroup==null) return;
+        
+        console.log("new error ako thau", messages, this.state.activeGroup);
+        messages[this.state.activeGroup] = [...messages[this.state.activeGroup], msg];
 
         this.setState({ messages: messages })
-    }
-
-    isMemberActiveGroup = () => {
-        return this.state.groups[this.activeGroup];
     }
 
     toggleRoomMembership = () => {
         if (this.isMemberActiveGroup()) {
             socket.emit('leaveRoom', this.state.activeGroup);
         } else {
-            socket.emit('joinRoom', this.activeGroup);
+            socket.emit('joinRoom', this.state.activeGroup);
         }
     }
 
-    async componentDidMount() {
-        await this.getUser();
-        await this.getFriendList();
-        await this.getGroups();
+     componentDidMount() {
+        this.getUser();
+        this.getFriendList();
+        this.getGroups();
 
         socket.on('chatToClient', (msg) => {
-            console.log(msg)
             this.recieveChatMessage(msg);
         });
 
@@ -192,8 +199,15 @@ class Chat extends React.Component {
         })
     }
 
-    setResponse = (data) => {
-        this.setState({ joinableRooms: data })
+
+    createChatClick = () => {
+        let {viewSwitcher} = this.state;
+        viewSwitcher = 2;
+        this.setState({viewSwitcher});
+        this.props.history.push({
+            pathname: '/forms',
+            state: { friends: this.state.friends, groups: this.state.groupList }
+        });
     }
 
     render() {
@@ -206,28 +220,39 @@ class Chat extends React.Component {
                     rooms={[...this.state.friends]}
                     roomId={this.state.roomId}
                 />
+                {/* <NewGroup open={this.state.openModal}/> */}
                 <GroupList
                     subscribeToRoom={this.subscribeToRoom}
-                    groups={[...this.state.groups]}
-                    roomId={this.state.groupId}
+                    groups={[...this.state.groupList]}
+                    roomId={this.state.activeGroup}
+                    title="click on "
+
                 />
                 {
-                    this.state.activeGroup ? <div>
+                    this.state.activeGroup != null ? <div>
                         <MessageList
                             roomId={this.state.roomId}
-                            messages={this.state.messages}
+                            messages={this.state.messages[this.state.activeGroup]}
                             socket={socket}
                         />
                         <SendMessageForm
                             username={this.state.currentUser ? this.state.currentUser.username : 'Anonymous'}
                             senderId={this.state.currentUser ? this.state.currentUser.id : null}
-                            room='Group-1'
-                            receiverid={1}
+                            receiverid={this.state.activeGroup}
+                            groups={this.state.groups}
+
                             messages={this.state.messages}
                             socket={socket}
                         />
                     </div> : null
                 }
+                <div className="footer">
+
+                    <button type="button" className="btn" onClick={this.createChatClick}>
+                        New Room / Add User to Group
+                    </button>
+                </div>
+
             </div>
         )
     }

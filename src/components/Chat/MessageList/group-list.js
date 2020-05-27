@@ -10,7 +10,7 @@ class GroupList extends React.Component {
                     {orderedGroups.map(room => {
                         const active = room.groups.id === this.props.roomId ? 'active' : '';
                         return (
-                            <li key={10 - room.groups.id} className={"room " + active}>
+                            <li key={room.groups.id} className={"room " + active}>
                                 <a
                                     onClick={() => this.props.subscribeToRoom(room, true)}
                                     href="#">

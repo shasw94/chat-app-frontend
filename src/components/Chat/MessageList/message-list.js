@@ -14,17 +14,16 @@ export class MessageList extends React.Component {
         
     }
 
-    toggleRoom
-
     componentDidMount() {
        
     }
     render() {
         return (
             <div className="message-list">
-                {this.props.messages.map((message, index) => {
+
+                {this.props.messages ? this.props.messages.map((message, index) => {
                     return <Message key={index} username={message.username} text={message.text} />
-                })}
+                }): null}
             </div>
         )
     }

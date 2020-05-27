@@ -7,13 +7,13 @@ class RoomList extends React.Component {
         return (
             <div className="rooms-list">
                 <ul>
-                <h3>Your Friends:</h3>
+                <h3>People on the network</h3>
+                <p>Click on New Room / Add User to Group to continue</p>
                     {orderedRooms.map(room => {
                         const active = room.id === this.props.roomId ? 'active' : '';
                         return (
                             <li key={room.id} className={"room " + active}>
                                 <a
-                                    onClick={() => this.props.subscribeToRoom(room, false)}
                                     href="#">
                                     # {room.username}
                                 </a>

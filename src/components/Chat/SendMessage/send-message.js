@@ -6,7 +6,6 @@ class SendMessageForm extends React.Component {
         super(props);
         this.state = {
             message: '',
-            i: 0,
         }
     }
 
@@ -14,13 +13,29 @@ class SendMessageForm extends React.Component {
         this.setState({message: e.target.value})
     }
 
+    isMemberOfActiveRoom() {
+        return true;
+        // return this.props.groups[this.props.receiverid];
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        const {socket} = this.props;
-        const {message, i} = this.state;
+        const {message} = this.state;
+        if (this.isMemberOfActiveRoom()) {
+            this.props.socket.emit('chatToServer', {
+                sender: this.props.senderId, text: message, group: this.props.receiverid, username: this.props.username,
+                room: this.props.receiverid
+            })
+        } else {
+            console.log("You must join the room before sending messages!");
+        }
         this.setState({message: ''});
-        console.log("emitted");
-        socket.emit('chatToServer', {sender: this.props.senderId, text: message, group: this.props.receiverid, username: this.props.username})
+
+        // const {socket} = this.props;
+        // const {message} = this.state;
+        // this.setState({message: ''});
+        // console.log("emitted");
+        // socket.emit(this.props.receiverid, {sender: this.props.senderId, text: message, group: this.props.receiverid, username: this.props.username})
     }
 
     handleOnChage = (event) => {
