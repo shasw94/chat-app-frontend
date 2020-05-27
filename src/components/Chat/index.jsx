@@ -213,9 +213,9 @@ class Chat extends React.Component {
     render() {
         return (
             <div className="Chat">
-                {/* {this.state.friends.map((items, key) => <div>
-                    {items.username}
-                </div>)} */}
+                <h1>
+                    Hi, {this.state.currentUser ? this.state.currentUser.username : null}
+                </h1>
                 <RoomList
                     rooms={[...this.state.friends]}
                     roomId={this.state.roomId}
