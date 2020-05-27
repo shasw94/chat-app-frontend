@@ -127,7 +127,7 @@ export class AddUser extends React.Component {
         return <div>
 
             <div className="base-container" ref={this.props.containerRef}>
-                <div className="header">Create Room</div>
+                <div className="header">Add User</div>
                 <form>
                     <div className="content">
                         <div className="image">

@@ -1,68 +1,72 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Dependancies
+* Backend App at [here][https://github.com/shasw94/chat-app]
+* node, npm 
 
-In the project directory, you can run:
+## Getting started
+* Clone the Repository`
+* Browse to the repository and then hit `npm install`
+* Do not run the this app at port 3000, You may choose at any other port. It is recommend starting the backend server first and then node will automatically handle the port to some other port.
+* after the backend server is up, hit `npm start` to start the front end server.
 
-### `npm start`
+## Using Frontend Application
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Register/Login
+* The app should prompt a Login/Registration page
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+![Login screenshot][/static/login.png]
 
-### `npm test`
+* Switch to the Register tab on the right as shown below
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Login Register gif][/static/login-register.gif]
 
-### `npm run build`
+* Fill in your details, and input a strong password( at least 8 characters with a combination of upper and lower case letters, and also a special character)
+* On successful Registration, go back to the Login page, using the same method as shown in the gif.
+* Enter Your credentials
+* On successful login you should see the chat page.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![LoginSuccessfulChatPage][/static/LoginSuccessfulChatPage.gif]
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Creating Chat Rooms / Topics for conversation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Before chatting, it is a must to create a room or a topic for the chat to occur between people.
+* Click on `New room / Add User to Group` button on the right.
 
-### `npm run eject`
+![AddRoom][/static/AddRoom.gif]
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* You should be prompted a `Create Room` Form. Give a topic of your choice and then click on submit.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![AddRoomSubmit][/static/AddRoomSubmit.gif]
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* You should now be back to the `Chat Page` as shown in the gif.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Adding other users to the room
 
-## Learn More
+* Now, we add users to the room/topic.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Click on the same `New room / Add User to Group` on the right, to open `Create Room` Form.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* As with the `Login page`, click on the right to open `Add User` Form.
 
-### Code Splitting
+![SwitchToAddUser][/static/SwitchToAddUser.gif]
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+* Select the User, you want to add and the group you want the user to add in from the dropdowns in the form
+* Click on Submit to add the user to the group, after which you should be back at the `Chat Page` 
 
-### Analyzing the Bundle Size
+# All set for Private Chat
+* Now We have what is there to start a private conversation with the user, to whom you have added to just now.
+* On the `Your Chats` banner click on the group that you just created.
+* A text box should be visible then on the screen.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+![groupClick][/static/groupClick.gif]
 
-### Making a Progressive Web App
+#### Send messages live or to a user even if they are offline
+* Now you could send the message in the room, the other user does not have to be online. 
+* If the other user, the one you just added, is online he can get live messages from you, and vice versa
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+![groupClick][/static/chat.gif]
 
-### Advanced Configuration
+### Making Group Chat Room
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* You could go ahead and add more people to the chat room, same as described above, to make it a group chat.
