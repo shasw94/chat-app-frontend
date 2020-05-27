@@ -15,7 +15,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### Register/Login
 * The app should prompt a Login/Registration page
 
-![Login screenshot][/static/login.png]
+![Login screenshot][./static/login.png]
 
 * Switch to the Register tab on the right as shown below
 
